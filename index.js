@@ -87,6 +87,7 @@ server.get("/api/projects", (req, res) => {
     });
 });
 
+// GET /api/projects/:id done
 server.get("/api/projects/:id", (req, res) => {
   projects
     .get(req.params.id)
@@ -107,5 +108,31 @@ server.get("/api/projects/:id", (req, res) => {
       });
     });
 });
+
+
+server.delete("/api/projects/:id", (req, res) => {
+
+  projects.get(req.params.id).then((project) => {
+    if (project === null) {
+      return res.status(404).json({
+        message: "The post with the specified ID does not exist.",
+      });
+    }
+    
+  });
+
+  projects.remove(req.params.id)
+    .then((project) => {
+        res.status(204).json()
+
+    })
+    .catch((error) => {
+        res.status(500).json({
+            error: "The project could not be removed"
+        })
+
+    })
+
+})
 
 server.listen(port, () => console.log(`API running on port ${port}`));

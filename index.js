@@ -71,7 +71,7 @@ try {
  
 });
 
-//GET done
+//GET /api/projects done
 server.get("/api/projects", (req, res) => {
   projects
     .get()
@@ -109,7 +109,7 @@ server.get("/api/projects/:id", (req, res) => {
     });
 });
 
-
+// DELETE /api/projects/:id done
 server.delete("/api/projects/:id", (req, res) => {
 
   projects.get(req.params.id).then((project) => {
@@ -134,5 +134,50 @@ server.delete("/api/projects/:id", (req, res) => {
     })
 
 })
+
+// Update - PUT /api/projects/:id
+server.put("/api/projects/:id", (req, res) => {
+
+    if (!req.body.name || !req.body.description) {
+        return res.status(400).json({
+          errorMessage: "Please provide name and description for the post.",
+        });
+    }
+
+    projects.get(req.params.id)
+    .then((project) => {
+      if (project === null) {
+        return res.status(404).json({
+          message: "The post with the specified ID does not exist.",
+        });
+        }
+   
+    })
+    .catch((error) => {
+        console.log(error)
+
+    })
+  
+    projects.update(req.params.id,req.body)
+      .then((project) => {
+        
+              console.log(res)
+
+             return res.status(200).json(project)
+        
+
+  
+      })
+      .catch((error) => {
+          console.log(error)
+         return res.status(500).json({
+            error: "The project information could not be modified."
+          })
+  
+      })
+  
+  
+})
+
 
 server.listen(port, () => console.log(`API running on port ${port}`));

@@ -184,7 +184,7 @@ server.put("/api/projects/:id", (req, res) => {
 
 
 
-// GET /api/projects/:id 
+// GET /api/actions/:id - done
 server.get("/api/actions/:id", (req, res) => {
   projects
     .get(req.params.id)
@@ -207,12 +207,12 @@ server.get("/api/actions/:id", (req, res) => {
 });
 
 // DELETE /api/projects/:id 
-server.delete("/api/projects/:id", (req, res) => {
+server.delete("/api/actions/:id", (req, res) => {
 
   projects.get(req.params.id).then((project) => {
-    if (project === null) {
+    if (!action) {
       return res.status(404).json({
-        message: "The post with the specified ID does not exist.",
+        message: "The action with the specified ID does not exist.",
       });
     }
     
@@ -225,7 +225,7 @@ server.delete("/api/projects/:id", (req, res) => {
     })
     .catch((error) => {
         res.status(500).json({
-            error: "The project could not be removed"
+            error: "The action could not be removed"
         })
 
     })

@@ -8,6 +8,7 @@ server.use(express.json());
 
 server.get("/api/", (req, res) => res.send("API up and running!"));
 
+// POST -done
 server.post("/api/projects", (req, res) => {
   if (!req.body.name || !req.body.description) {
     return res.status(400).json({
@@ -28,7 +29,8 @@ server.post("/api/projects", (req, res) => {
     });
 });
 
-server.post("/api/projects/:id/comments", (req, res) => {
+// todo
+server.post("/api/projects/:id/actions", (req, res) => {
   console.log(req.params.id);
   const postId = req.params.id;
   req.body.post_id = postId;
@@ -71,7 +73,7 @@ try {
 
 server.get("/api/projects", (req, res) => {
   projects
-    .find()
+    .get()
 
     .then((projects) => {
       res.status(200).json(projects);

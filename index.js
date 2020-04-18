@@ -232,20 +232,20 @@ server.delete("/api/actions/:id", (req, res) => {
 
 })
 
-// Update - PUT /api/projects/:id
-server.put("/api/projects/:id", (req, res) => {
+// Update - PUT /api/actions/:id
+server.put("/api/actions/:id", (req, res) => {
 
-    if (!req.body.name || !req.body.description) {
+    if (!req.body.notes || !req.body.description || !req.body.project_id) {
         return res.status(400).json({
-          errorMessage: "Please provide name and description for the post.",
+          errorMessage: "Please provide project_id and description for the post.",
         });
     }
 
-    projects.get(req.params.id)
-    .then((project) => {
-      if (project === null) {
+    actions.get(req.params.id)
+    .then((action) => {
+      if (action === null) {
         return res.status(404).json({
-          message: "The post with the specified ID does not exist.",
+          message: "The action with the specified ID does not exist.",
         });
         }
    
@@ -255,12 +255,12 @@ server.put("/api/projects/:id", (req, res) => {
 
     })
   
-    projects.update(req.params.id,req.body)
-      .then((project) => {
+    actions.update(req.params.id,req.body)
+      .then((action) => {
         
               console.log(res)
 
-             return res.status(200).json(project)
+             return res.status(200).json(action)
         
 
   

@@ -71,6 +71,7 @@ try {
  
 });
 
+//GET done
 server.get("/api/projects", (req, res) => {
   projects
     .get()
@@ -88,16 +89,16 @@ server.get("/api/projects", (req, res) => {
 
 server.get("/api/projects/:id", (req, res) => {
   projects
-    .findById(req.params.id)
-    .then((post) => {
+    .get(req.params.id)
+    .then((project) => {
       // console.log(post);
-      if (post.length === 0) {
+      if (project === null) {
         return res.status(404).json({
           message: "The post with the specified ID does not exist.",
         });
       }
 
-      return res.status(200).json(post);
+      return res.status(200).json(project);
     })
     .catch((error) => {
       console.log(error);

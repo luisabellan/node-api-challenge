@@ -11,14 +11,14 @@ server.get("/api/", (req, res) => res.send("API up and running!"));
 server.post("/api/projects", (req, res) => {
   if (!req.body.name || !req.body.description) {
     return res.status(400).json({
-      errorMessage: "Please provide name and description for the project.",
+      errorMessage: "Please provide name and description for the post.",
     });
   }
 
   projects
     .insert(req.body)
-    .then((project) => {
-      res.status(201).json(project);
+    .then((post) => {
+      res.status(201).json(post);
     })
     .catch((error) => {
       console.log(error);

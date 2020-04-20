@@ -137,9 +137,12 @@ router.put("/:id/actions/:id2", function (req, res) {
     console.log(error);
   });
   actions.update(req.params.id2, req.body).then(function (action) {
-    console.log(res); // El fallo está aquí, encontrarlo!
+    if (action == null) {
+      console.log("Action has been updated successfully.");
+    } // El fallo está aquí, encontrarlo!
 
-    return res.status(200).json(post);
+
+    return res.status(200).json(action);
   })["catch"](function (error) {
     console.log(error);
     return res.status(500).json({

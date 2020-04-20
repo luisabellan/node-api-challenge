@@ -190,9 +190,14 @@ router.put("/:id/actions/:id2", (req, res) => {
   actions
     .update(req.params.id2, req.body)
     .then((action) => {
-      console.log(res);
+      if(action == null)
+      {
+
+        console.log("Action has been updated successfully.");
+      }
 // El fallo está aquí, encontrarlo!
-      return res.status(200).json(post);
+      
+      return res.status(200).json(action);
     })
     .catch((error) => {
       console.log(error);

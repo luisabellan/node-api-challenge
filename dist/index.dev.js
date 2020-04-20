@@ -21,7 +21,7 @@ server.use(express.json());
 server.use(cors());
 server.use('/api/', welcomeRoute);
 server.use('/api/projects', projectRouter);
-server.use('/api/actions', actionRouter);
+server.use('/api/projects', actionRouter);
 server.listen(port, function () {
   return console.log("API running on port ".concat(port));
 });

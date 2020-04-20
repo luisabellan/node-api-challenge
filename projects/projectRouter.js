@@ -25,46 +25,6 @@ router.post("", (req, res) => {
     });
 });
 
-// UPDATE - POST //:id/actions
-router.post("/:id/actions", (req, res) => {
- 
-
-
-  if (!req.body.project_id) {
-    return res.status(400).json({
-      errorMessage: "Please provide project for the action.",
-    });
-  }
-  const projectAction = projects.getProjectActions(req.body.post_id);
-
-  if (projectAction.length === 0) {
-    return res.status(404).json({
-      message: "The post with the specified ID does not exist.",
-    });
-  }
-try {
-     actions
-    .insert(req.body)
-
-    .then((action) => {
-      return res.status(201).json(action);
-    })
-    .catch((error) => {
-      //console.log(error);
-      res.status(404).json({
-        message: "The project with the specified ID does not exist.",
-      });
-    });
-} catch (error) {
-    console.log(error)
-    
-    return res.status(500).json({
-      error: "There was an error while saving the comment to the database",
-    });
-    
-}
- 
-});
 
 //GET  
 router.get("/", (req, res) => {

@@ -166,7 +166,7 @@ router.delete("/:id/actions/:id2", (req, res) => {
   })
 })
 
-
+// UPDATE /api/projects/:id/actions/:id2
 router.put("/:id/actions/:id2", (req, res) => {
   if (!req.body.project_id || !req.body.description || !req.body.notes) {
     return res.status(400).json({

@@ -36,7 +36,7 @@ router.get("/", function (req, res) {
 
 router.get("/:id", function (req, res) {
   projects.get(req.params.id).then(function (project) {
-    // console.log(post);
+    // console.log(project);
     if (project === null) {
       return res.status(404).json({
         message: "The post with the specified ID does not exist."
@@ -86,7 +86,7 @@ router.put("/:id", function (req, res) {
     console.log(error);
   });
   projects.update(req.params.id, req.body).then(function (project) {
-    console.log(res);
+    // console.log(res)
     return res.status(200).json(project);
   })["catch"](function (error) {
     console.log(error);

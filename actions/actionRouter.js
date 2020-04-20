@@ -6,7 +6,7 @@ const router = express.Router();
 
 // CREATE - POST /:id/actions
 router.post("/:id/actions", (req, res) => {
- 
+
 
 
   if (!req.body.project_id) {
@@ -14,42 +14,42 @@ router.post("/:id/actions", (req, res) => {
       errorMessage: "Please provide project for the action.",
     });
   }
- /* const projectAction = projects.getProjectActions(req.body.post_id);
+  /* const projectAction = projects.getProjectActions(req.body.post_id);
+ 
+    if (projectAction.length === 0) {
+     return res.status(404).json({
+       message: "The post with the specified ID does not exist.",
+     });
+   } */
+  try {
+    actions
+      .insert(req.body)
 
-   if (projectAction.length === 0) {
-    return res.status(404).json({
-      message: "The post with the specified ID does not exist.",
-    });
-  } */
-try {
-     actions
-    .insert(req.body)
-
-    .then((action) => {
-      return res.status(201).json(action);
-    })
-    .catch((error) => {
-      //console.log(error);
-      res.status(404).json({
-        message: "The project with the specified ID does not exist.",
+      .then((action) => {
+        return res.status(201).json(action);
+      })
+      .catch((error) => {
+        //console.log(error);
+        res.status(404).json({
+          message: "The project with the specified ID does not exist.",
+        });
       });
-    });
-} catch (error) {
+  } catch (error) {
     console.log(error)
-    
+
     return res.status(500).json({
       error: "There was an error while saving the comment to the database",
     });
-    
-}
- 
+
+  }
+
 });
 
 
 // GET /:id/actions/ - DONE
 router.get("/:id/actions", (req, res) => {
 
-req.id = req.params.id
+  req.id = req.params.id
   projects
     .getProjectActions(req.params.id)
 
@@ -99,37 +99,37 @@ router.get("/:id/actions/:id2", (req, res) => {
 
 // DELETE /:id TEST
 router.delete("/:id/actions/:id2", (req, res) => {
-   
+
   req.id = req.params.id
   actions.remove(req.params.id2)
-  .then((action) => {
-    if (!action) {
-      return res.status(404).json({
-        message: "The action with the specified ID does not exist.",
-      });
-    }
+    .then((action) => {
+      if (!action) {
+        return res.status(404).json({
+          message: "The action with the specified ID does not exist.",
+        });
+      }
 
 
 
-    projects.remove(req.params.id2)
-      .then((project) => {
-        res.status(204).json()
+      projects.remove(req.params.id2)
+        .then((project) => {
+          res.status(204).json()
 
-      })
-      .catch((error) => {
-        res.status(500).json({
-          error: "The action could not be removed"
+        })
+        .catch((error) => {
+          res.status(500).json({
+            error: "The action could not be removed"
+          })
+
         })
 
-      })
-
-  })
+    })
 
   // Update - PUT /:id TODO
   router.put("/:id/actions/:id2", (req, res) => {
 
-  /*   req.project_id = req.params.id
-    req.project_id */
+    /*   req.project_id = req.params.id
+      req.project_id */
 
     // HERE TODO
     if (!req.body.notes || !req.body.description || !req.body.project_id) {
@@ -166,4 +166,39 @@ router.delete("/:id/actions/:id2", (req, res) => {
   })
 })
 
+
+router.put("/:id/actions/:id2", (req, res) => {
+  if (!req.body.project_id || !req.body.description || !req.body.notes) {
+    return res.status(400).json({
+      errorMessage: "Please provide project_id, description and notes for the project.",
+    });
+  }
+
+  actions
+    .get(req.params.id)
+    .then((action) => {
+      if (action.length === 0) {
+        return res.status(404).json({
+          message: "The action with the specified ID does not exist.",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  actions
+    .update(req.params.id2, req.body)
+    .then((action) => {
+      console.log(res);
+// El fallo está aquí, encontrarlo!
+      return res.status(200).json(post);
+    })
+    .catch((error) => {
+      console.log(error);
+      return res.status(500).json({
+        error: "The action information could not be modified.",
+      });
+    });
+})
 module.exports = router;

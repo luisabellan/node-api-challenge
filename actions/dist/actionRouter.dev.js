@@ -15,7 +15,7 @@ router.post("/:id/actions", function (req, res) {
     });
   }
   /* const projectAction = projects.getProjectActions(req.body.post_id);
-     if (projectAction.length === 0) {
+      if (projectAction.length === 0) {
      return res.status(404).json({
        message: "The post with the specified ID does not exist.",
      });
@@ -78,7 +78,7 @@ router.get("/:id/actions/:id2", function (req, res) {
 }); // DELETE /:id TEST
 
 router["delete"]("/:id/actions/:id2", function (req, res) {
-  req.body.id = req.params.id;
+  req.id = req.params.id;
   actions.remove(req.params.id2).then(function (action) {
     if (!action) {
       return res.status(404).json({
@@ -93,19 +93,19 @@ router["delete"]("/:id/actions/:id2", function (req, res) {
         error: "The action could not be removed"
       });
     });
-  }); // Update - PUT /:id/actions/:id2 TODO
+  }); // Update - PUT /:id TODO
 
   router.put("/:id/actions/:id2", function (req, res) {
-    req.body.id = req.params.id;
-    req.project_id = req.params.id; // HERE TODO
+    /*   req.project_id = req.params.id
+      req.project_id */
+    // HERE TODO
+    if (!req.body.notes || !req.body.description || !req.body.project_id) {
+      return res.status(400).json({
+        errorMessage: "Please provide project_id and description for the project."
+      });
+    }
 
     actions.update(req.params.id2, req.body).then(function (action) {
-      if (!req.body.notes || !req.body.description || !req.body.project_id) {
-        return res.status(400).json({
-          errorMessage: "Please provide project_id and description for the project."
-        });
-      }
-
       if (action === null) {
         return res.status(404).json({
           message: "The action with the project ID does not exist."
@@ -117,6 +117,33 @@ router["delete"]("/:id/actions/:id2", function (req, res) {
       });
     })["catch"](function (error) {
       console.log(error);
+    });
+  });
+});
+router.put("/:id/actions/:id2", function (req, res) {
+  if (!req.body.project_id || !req.body.description || !req.body.notes) {
+    return res.status(400).json({
+      errorMessage: "Please provide project_id, description and notes for the project."
+    });
+  }
+
+  actions.get(req.params.id).then(function (action) {
+    if (action.length === 0) {
+      return res.status(404).json({
+        message: "The action with the specified ID does not exist."
+      });
+    }
+  })["catch"](function (error) {
+    console.log(error);
+  });
+  actions.update(req.params.id2, req.body).then(function (action) {
+    console.log(res); // El fallo está aquí, encontrarlo!
+
+    return res.status(200).json(post);
+  })["catch"](function (error) {
+    console.log(error);
+    return res.status(500).json({
+      error: "The action information could not be modified."
     });
   });
 });

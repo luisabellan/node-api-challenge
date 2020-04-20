@@ -45,3 +45,4 @@ function update(id, changes) {
 function remove(id) {
   return db('actions').where('id', id).del();
 }
+

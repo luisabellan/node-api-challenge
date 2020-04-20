@@ -5,13 +5,13 @@ const router = express.Router();
 
 // GET /:id - done
 router.get("/:id", (req, res) => {
-  projects
+  actions
     .get(req.params.id)
-    .then((project) => {
+    .then((action) => {
       // console.log(post);
-      if (project === null) {
+      if (action === null) {
         return res.status(404).json({
-          message: "The post with the specified ID does not exist.",
+          message: "The action with the specified ID does not exist.",
         });
       }
 
@@ -99,3 +99,6 @@ router.put("/:id", (req, res) => {
   
   
 })
+
+
+module.exports = router;

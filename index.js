@@ -16,7 +16,7 @@ server.use(cors())
 
 server.use('/api/', welcomeRoute)
 server.use('/api/projects', projectRouter)
-//server.use('/api/actions', actionRouter)
+server.use('/api/actions', actionRouter)
 
 
 

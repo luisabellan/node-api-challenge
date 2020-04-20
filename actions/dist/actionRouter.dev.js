@@ -78,7 +78,7 @@ router.get("/:id/actions/:id2", function (req, res) {
 }); // DELETE /:id TEST
 
 router["delete"]("/:id/actions/:id2", function (req, res) {
-  req.id = req.params.id;
+  req.body.id = req.params.id;
   actions.remove(req.params.id2).then(function (action) {
     if (!action) {
       return res.status(404).json({
@@ -93,19 +93,19 @@ router["delete"]("/:id/actions/:id2", function (req, res) {
         error: "The action could not be removed"
       });
     });
-  }); // Update - PUT /:id TODO
+  }); // Update - PUT /:id/actions/:id2 TODO
 
   router.put("/:id/actions/:id2", function (req, res) {
-    /*   req.project_id = req.params.id
-      req.project_id */
-    // HERE TODO
-    if (!req.body.notes || !req.body.description || !req.body.project_id) {
-      return res.status(400).json({
-        errorMessage: "Please provide project_id and description for the project."
-      });
-    }
+    req.body.id = req.params.id;
+    req.project_id = req.params.id; // HERE TODO
 
     actions.update(req.params.id2, req.body).then(function (action) {
+      if (!req.body.notes || !req.body.description || !req.body.project_id) {
+        return res.status(400).json({
+          errorMessage: "Please provide project_id and description for the project."
+        });
+      }
+
       if (action === null) {
         return res.status(404).json({
           message: "The action with the project ID does not exist."

@@ -43,7 +43,7 @@ router.get("/:id/actions", function (req, res) {
   req.id = req.params.id;
   projects.getProjectActions(req.params.id).then(function (action) {
     // console.log(post);
-    if (action === null) {
+    if (actions === null) {
       res.status(404).json({
         message: "This project has no actions."
       });
@@ -86,7 +86,7 @@ router["delete"]("/:id/actions/:id2", function (req, res) {
       });
     }
 
-    projects.remove(req.params.id).then(function (project) {
+    projects.remove(req.params.id2).then(function (project) {
       res.status(204).json();
     })["catch"](function (error) {
       res.status(500).json({
@@ -95,19 +95,26 @@ router["delete"]("/:id/actions/:id2", function (req, res) {
     });
   }); // Update - PUT /:id TODO
 
-  router.put("/:id/actions", function (req, res) {
+  router.put("/:id/actions/:id2", function (req, res) {
+    /*   req.project_id = req.params.id
+      req.project_id */
+    // HERE TODO
     if (!req.body.notes || !req.body.description || !req.body.project_id) {
       return res.status(400).json({
         errorMessage: "Please provide project_id and description for the project."
       });
     }
 
-    actions.update(req.body, req.params.id).then(function (action) {
+    actions.update(req.params.id2, req.body).then(function (action) {
       if (action === null) {
         return res.status(404).json({
           message: "The action with the project ID does not exist."
         });
       }
+
+      return res.status(201).json({
+        message: "The action has been updated successfully"
+      });
     })["catch"](function (error) {
       console.log(error);
     });

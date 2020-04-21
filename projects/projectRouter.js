@@ -73,20 +73,25 @@ router.delete("/:id", (req, res) => {
         message: "The project with the specified ID does not exist.",
       });
     }
+    projects.remove(req.params.id)
+      .then((project) => {
+          res.status(204).json()
+  
+      })
+      .catch((error) => {
+          res.status(500).json({
+              error: "The project could not be removed"
+          })
+  
+      })
+  })
+  .catch((error)=>{
     
-  });
-
-  projects.remove(req.params.id)
-    .then((project) => {
-        res.status(204).json()
-
+    res.status(500).json({
+      error: "The project could not be removed"
     })
-    .catch((error) => {
-        res.status(500).json({
-            error: "The project could not be removed"
-        })
+  })
 
-    })
 
 })
 

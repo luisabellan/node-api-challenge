@@ -100,7 +100,7 @@ router.get("/:id/actions/:id2", (req, res) => {
 // DELETE /:id TEST
 router.delete("/:id/actions/:id2", (req, res) => {
 
-  req.id = req.params.id
+   // delete req.id = req.params.id
   actions.remove(req.params.id2)
     .then((action) => {
       if (!action) {
@@ -195,7 +195,7 @@ router.put("/:id/actions/:id2", (req, res) => {
 
         console.log("Action has been updated successfully.");
       }
-// El fallo está aquí, encontrarlo!
+
       
       return res.status(200).json(action);
     })

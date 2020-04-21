@@ -27,12 +27,7 @@ function App() {
 
               )
             })}
-
       </ul>
-
-
-
-
     </div>
   );
 }
